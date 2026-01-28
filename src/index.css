@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@import "tailwindcss";
+
+/* Fix Chrome / Edge autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px #1E1E1E inset !important;
+  box-shadow: 0 0 0px 1000px #1E1E1E inset !important;
+  -webkit-text-fill-color: #ECE0D1 !important;
+  caret-color: #ECE0D1;
+  transition: background-color 9999s ease-in-out 0s;
+}

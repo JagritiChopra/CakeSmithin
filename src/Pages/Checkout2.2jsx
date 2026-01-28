@@ -1,0 +1,257 @@
+import React, { useEffect, useState, useRef } from "react";
+import { useEmailForm } from "../hooks/useEmailForm"; // your existing hook
+
+const CheckOut = () => {
+  const [cart, setCart] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [pickupTime, setPickupTime] = useState(
+    "Earliest available (in 2 hours)"
+  );
+
+  const formRef = useRef();
+
+  const { sendForm, loading } = useEmailForm({
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    templateId: import.meta.env.VITE_EMAILJS_CONTACT_TEMPLATE, // reuse existing free-tier template
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  });
+
+  // Load cart from localStorage
+  useEffect(() => { 
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
+
+    const grandTotal = storedCart.reduce(
+      (sum, item) => sum + item.price * item.qty,
+      0
+    );
+    setTotal(grandTotal);
+  }, []);
+
+  const handlePlaceOrder = async () => {
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    const userName = document.getElementById("user_name").value;
+    const userEmail = document.getElementById("user_email").value;
+
+    if (!userName || !userEmail) {
+      alert("Please fill in your name and email!");
+      return;
+    }
+
+    // Build order items string
+    const orderItems = cart
+      .map((item) => `${item.title} (x${item.qty}) - $${item.price.toFixed(2)}`)
+      .join("\n");
+
+    // Build message
+    const messageBody = `
+Order Items:
+${orderItems}
+
+Total: $${total.toFixed(2)}
+Pickup Time: ${pickupTime}
+Payment Method: ${paymentMethod}
+    `;
+
+    // Send email to client using EmailJS
+    const result = await sendForm(formRef, {
+      name: userName,
+      email: userEmail,
+      message: messageBody,
+      form_type: "New Order",
+    });
+
+    if (result.success) {
+      alert("Order placed successfully! 🧁 The bakery has been notified.");
+      localStorage.removeItem("cart");
+      // Optional: reset form fields
+      formRef.current.reset();
+    } else {
+      alert("Failed to place order. Please try again 😢");
+    }
+  };
+
+  return (
+    <main className="bg-[#121212] text-[#F5F5F0] antialiased transition-colors duration-300 min-h-screen">
+      {/* Hero */}
+      <div className="relative py-12 bg-[rgba(216,135,110,0.05)] overflow-hidden border-b border-white/5">
+        <div className="absolute inset-0 bread-pattern"></div>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-20">
+          <h1 className="text-4xl font-black text-white mb-2 tracking-tight">
+            Checkout
+          </h1>
+          <p className="text-[rgba(245,245,240,0.6)] font-medium">
+            Complete your artisanal pickup order.
+          </p>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-20 py-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="grow space-y-8">
+            {/* Contact Section */}
+            <section className="bg-[#1E1E1E] p-8 rounded-2xl border border-white/10 shadow-sm">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="w-8 h-8 rounded-full bg-[#d8876e] text-[#121212] flex items-center justify-center font-bold text-sm">
+                  1
+                </span>
+                <h2 className="text-xl font-black uppercase tracking-tight text-white">
+                  Contact Information
+                </h2>
+              </div>
+              <form ref={formRef} className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[rgba(245,245,240,0.4)]">
+                    Full Name
+                  </label>
+                  <input
+                    id="user_name"
+                    className="w-full bg-[#121212] border border-white/5 rounded-2xl px-4 py-3 text-sm text-[#F5F5F0] focus:ring-1"
+                    placeholder="John Doe"
+                    type="text"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[rgba(245,245,240,0.4)]">
+                    Email Address
+                  </label>
+                  <input
+                    id="user_email"
+                    className="w-full bg-[#121212] border border-white/5 rounded-2xl px-4 py-3 text-sm text-[#F5F5F0] focus:ring-1"
+                    placeholder="john@example.com"
+                    type="email"
+                    required
+                  />
+                </div>
+              </form>
+            </section>
+
+            {/* Pickup Section */}
+            <section className="bg-[#1E1E1E] p-8 rounded-2xl border border-white/10 shadow-sm">
+              <div className="flex items-center gap-4 mb-6">
+                <span className="w-8 h-8 rounded-full bg-[#d8876e] text-[#121212] flex items-center justify-center font-bold text-sm">
+                  2
+                </span>
+                <h2 className="text-xl font-black uppercase tracking-tight text-white">
+                  Pickup Time
+                </h2>
+              </div>
+              <div className="space-y-4">
+                <label className="text-xs font-bold uppercase tracking-wider text-[rgba(245,245,240,0.4)]">
+                  Select Time Slot
+                </label>
+                <select
+                  className="w-full bg-[#121212] border border-white/5 rounded-2xl px-4 py-3 text-sm text-[#F5F5F0] focus:ring-1 appearance-none"
+                  value={pickupTime}
+                  onChange={(e) => setPickupTime(e.target.value)}
+                >
+                  <option>Earliest available (in 2 hours)</option>
+                  <option>10:00 AM - 10:30 AM</option>
+                  <option>10:30 AM - 11:00 AM</option>
+                  <option>11:00 AM - 11:30 AM</option>
+                  <option>11:30 AM - 12:00 PM</option>
+                </select>
+              </div>
+            </section>
+
+            {/* Payment Section */}
+            <section className="bg-[#1E1E1E] p-8 rounded-2xl border border-white/10 shadow-sm">
+              <div className="space-y-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-[rgba(245,245,240,0.4)]">
+                  Select Payment Method
+                </p>
+
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="cash"
+                    checked={paymentMethod === "cash"}
+                    onChange={() => setPaymentMethod("cash")}
+                  />
+                  <span className="text-sm text-[#F5F5F0]">Cash on Pickup</span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="paynow"
+                    checked={paymentMethod === "paynow"}
+                    onChange={() => setPaymentMethod("paynow")}
+                  />
+                  <span className="text-sm text-[#F5F5F0]">Pay Now (Online)</span>
+                </label>
+              </div>
+
+              <div className="mt-12">
+                <button
+                  type="button"
+                  onClick={handlePlaceOrder}
+                  className="button-glow w-full py-5 bg-[#121212] text-white font-bold rounded-2xl border-2 border-[#d8876e] shadow-xl hover:scale-[1.01] active:scale-95 transition-all text-lg tracking-tight uppercase"
+                >
+                  {paymentMethod === "cash"
+                    ? "Place Pickup Order"
+                    : "Continue to Payment"}
+                </button>
+              </div>
+            </section>
+          </div>
+
+          {/* Right Summary */}
+          <aside className="w-full lg:w-96 shrink-0">
+            <div className="sticky top-25 bg-[#1E1E1E] border border-white/10 rounded-2xl p-8 shadow-2xl">
+              <h3 className="font-black text-xl uppercase tracking-tight text-white mb-6">
+                Your Order Summary
+              </h3>
+
+              {cart.length === 0 ? (
+                <p className="text-sm text-[rgba(245,245,240,0.6)]">
+                  Your cart is empty.
+                </p>
+              ) : (
+                <div className="space-y-4">
+                  {cart.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex justify-between items-start text-sm border-b border-white/5 pb-3"
+                    >
+                      <div>
+                        <p className="font-semibold text-white">{item.title}</p>
+                        <p className="text-[rgba(245,245,240,0.5)]">
+                          Qty: {item.qty} × ${item.price.toFixed(2)}
+                        </p>
+                      </div>
+                      <p className="font-bold text-[#d8876e]">
+                        ${(item.qty * item.price).toFixed(2)}
+                      </p>
+                    </div>
+                  ))}
+
+                  <div className="pt-4 border-t border-white/10 flex justify-between items-center text-lg">
+                    <span className="font-black uppercase tracking-tight text-white">
+                      Total
+                    </span>
+                    <span className="font-black text-[#d8876e]">
+                      ${total.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default CheckOut;

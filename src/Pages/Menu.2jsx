@@ -1,0 +1,149 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+import { menuData } from "../Data/MenuData.js";
+
+const filters = [
+  "All Items",
+  "Brownies",
+  "Dry Cakes",
+  "Icing Cakes",
+  "Wedding Cakes",
+  "Engagement Cakes",
+  "Customized Cakes",
+];
+
+export default function Menu() {
+  const [activeFilter, setActiveFilter] = useState("All Items");
+
+  const filteredItems =
+    activeFilter === "All Items"
+      ? menuData
+      : menuData.filter((item) => item.category === activeFilter);
+
+  return (
+    <div className="bg-[#121212] text-white min-h-screen">
+
+{/* Hero Section */}
+{/* Hero Section */}
+<section 
+  className="relative py-32"
+  style={{ backgroundColor: "rgba(216, 135, 110, 0.06)" }}   // soft #d8876e tint
+>
+  <div
+    className="absolute inset-0 bread-pattern"
+    style={{
+      backgroundColor: "#121212",
+      backgroundImage: `
+        radial-gradient(rgba(216, 135, 110, 1) 0.5px, transparent 0.5px),
+        radial-gradient(rgba(216, 135, 110, 1) 0.5px, #121212 0.5px)
+      `,
+      backgroundSize: "20px 20px",
+      backgroundPosition: "0 0, 10px 10px",
+      opacity: 0.06,   // glow strength
+    }}
+  ></div>
+
+  <div className="relative max-w-7xl mx-auto px-6 lg:px-20 text-center">
+    <nav
+      className="flex justify-center mb-6 text-xs font-bold uppercase tracking-[0.2em]"
+      style={{ color: "rgba(255, 249, 240, 0.4)" }}
+    >
+      <ol className="flex items-center gap-2">
+        <li>
+          <a href="#" className="transition hover:text-[#d8876e]">
+            <Link to={"/"}>
+            Home
+            </Link>
+            
+          </a>
+        </li>
+        <li>
+          <span className="material-symbols-outlined text-[10px]">
+            chevron_right
+          </span>
+        </li>
+        <li className="text-[#F5F5F5]">Menu</li>
+      </ol>
+    </nav>
+
+    <h1
+      className="text-5xl lg:text-7xl font-black mb-6 tracking-tight"
+      style={{ color: "#F5F5F5" }}
+    >
+      Our Menu
+    </h1>
+
+    <p
+      className="max-w-2xl mx-auto text-lg leading-relaxed italic"
+      style={{ color: "rgba(255, 249, 240, 0.7)" }}
+    >
+ Freshly baked cakes and brownies, made with care using clean, eggless recipes — with sugar-free options for mindful indulgence.
+    </p>
+  </div>
+</section>
+
+
+
+
+
+      {/* ========== MENU SECTION ========== */}
+      <section className="px-6 lg:px-20 pb-24 py-28">
+
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap gap-3 mb-10">
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-5 py-2 rounded-full text-sm transition ${
+                activeFilter === filter
+                  ? "bg-[#d8876e] text-black"
+                  : "bg-[#1E1E1E] text-gray-300 hover:bg-[#2a2a2a]"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
+        {/* Menu Items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              className="bg-[#1E1E1E] rounded-2xl overflow-hidden shadow-lg"
+            >
+              <div className="relative">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-56 object-cover"
+                />
+                {item.tag && (
+                  <span className="absolute top-3 right-3 bg-black/70 text-xs px-3 py-1 rounded-full">
+                    {item.tag}
+                  </span>
+                )}
+              </div>
+
+              <div className="p-5">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg font-semibold">{item.title}</h3>
+                  <span className="text-[#d8876e] font-semibold">
+                    ${item.price.toFixed(2)}
+                  </span>
+                </div>
+
+                <button className="mt-3 w-full bg-[#d8876e] text-black py-2 rounded-xl font-medium hover:opacity-90 transition">
+                  Add to Order
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </section>
+    </div>
+  );
+}
