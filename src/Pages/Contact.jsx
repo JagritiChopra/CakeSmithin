@@ -71,7 +71,17 @@ const Contact = () => {
 
           {/* FORM */}
           <div className="lg:col-span-7">
-            <div className="bg-[#1E1E1E] p-8 lg:p-12 rounded-3xl border border-white/5 shadow-2xl">
+           <div
+  className="bg-[#1E1E1E] p-8 lg:p-12 rounded-3xl
+             border border-white/30
+             transition-all
+             shadow-sm"
+  style={{
+    boxShadow:
+      "inset 0 0 0 1px rgba(216,135,110,0.4), 0 0 12px rgba(216,135,110,0.35)",
+  }}
+>
+
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                  <input type="hidden" name="form_type" value="Contact Form" />
                 <div className="grid md:grid-cols-2 gap-6">

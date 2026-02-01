@@ -89,10 +89,10 @@ const TestimonialSection = () => {
 
   return (
     <section
-      className="py-24 px-6 lg:px-20"
+      className="py-24 px-6 lg:px-20 animate-fadeInUp"
       style={{ backgroundColor: colors.background }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto animate-fadeInUp">
         {/* Header */}
         <div className="text-center mb-16 space-y-4">
           <h2

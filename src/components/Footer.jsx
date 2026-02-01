@@ -4,15 +4,16 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
  <footer className="bg-[#121212] text-[#a0a0a0] px-6 lg:px-20 py-12 font-display 
-border-t border-[#372c2a]">
+mt-0 border-[#372c2a]">
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-4 gap-8">
         {/* Logo & description */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#e2715a] text-2xl">
+            {/* <span className="material-symbols-outlined text-[#e2715a] text-2xl">
               bakery_dining
-            </span>
+            </span> */}
+            <img   src="/logo.jpeg" className="h-10 w-10 object-cover"/>
             <h2 className="text-lg font-bold tracking-tight text-[#f5f5dc]">
               The CakeSmith
             </h2>
@@ -121,7 +122,7 @@ border-t border-[#372c2a]">
 
       {/* Bottom bar */}
       <div className="max-w-7xl mx-auto mt-8 pt-4 border-t border-[#372c2a] flex flex-col sm:flex-row justify-between items-center text-xs text-[#a0a0a0]/50">
-        <p>© 2024  The CakeSmith. All rights reserved.</p>
+        <p>© 2026  The CakeSmith. All rights reserved.</p>
         <div className="flex gap-6 mt-2 sm:mt-0">
           <a href="#" className="hover:text-[#e2715a] transition">Privacy Policy</a>
           <a href="#" className="hover:text-[#e2715a] transition">Terms of Service</a>

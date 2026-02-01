@@ -53,10 +53,25 @@ const Navbar = () => {
     <header className="bg-cream dark:bg-[#121212] h-20 px-20 flex items-center justify-between transition-colors">
       
       {/* Logo */}
-      <div className="flex items-center gap-2 font-bold tracking-wide dark:text-white">
-        <span className="text-lg">🍞</span>
-        <span className="text-sm">THE CakeSmith</span>
-      </div>
+      {/* <div className="flex flex-row  items-center gap-2 font-bold tracking-wide dark:text-white">
+        <a className ="flex flex-row gap-5 object-cover rounded-full">
+          <img  className="h-10 w-10 shadow-2xl" src="/logo.jpeg" alt="logo" />
+        <span className="text-sm leading-none">THE CakeSmith</span>
+        </a>
+      </div> */}
+
+
+        <div className="flex flex-row items-center gap-2 font-bold tracking-wide dark:text-white">
+  <a href="/" className="flex flex-row items-center gap-3">
+    <img
+      className="h-10 w-10 object-cover "
+      src="/logo.jpeg"
+      alt="CakeSmith Logo"
+    />
+    <span className="text-sm leading-none">THE CakeSmith</span>
+  </a>
+</div>
+
 
       {/* Menu */}
       <nav className="flex gap-8 text-sm dark:text-[#F5F5F5]">

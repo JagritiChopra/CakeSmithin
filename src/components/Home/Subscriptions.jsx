@@ -37,64 +37,82 @@ const NewsletterSignup = () => {
 
   return (
      <div className="bg-[#121212] text-white min-h-screen relative">
-     <section
-        className="relative py-32"
-        style={{ backgroundColor: "rgba(216, 135, 110, 0.06)" }}
+    <section
+  className="relative py-32 overflow-hidden  animate-fadeInUp"
+  style={{ backgroundColor: "rgba(216, 135, 110, 0.06)" }}
+>
+  {/* Pattern overlay layer */}
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundColor: "#121212",
+      backgroundImage: `
+        radial-gradient(rgba(216, 135, 110, 1) 0.5px, transparent 0.5px),
+        radial-gradient(rgba(216, 135, 110, 1) 0.5px, #121212 0.5px)
+      `,
+      backgroundSize: "20px 20px",
+      backgroundPosition: "0 0, 10px 10px",
+      opacity: 0.06,
+    }}
+  />
+
+  {/* Content */}
+  <div className="relative max-w-3xl mx-auto text-center space-y-8">
+    <h2 className="text-4xl font-bold tracking-tight text-white">
+      Join the Crust Club
+    </h2>
+
+    <p className="text-lg text-white/70">
+      Subscribe to get weekly specials, fresh-out-of-the-oven alerts, and exclusive recipes.
+    </p>
+
+    <form
+      ref={formRef}
+      onSubmit={sendEmail}
+      className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
+    >
+      <input type="hidden" name="form_type" value="Newsletter Signup" />
+
+   <input
+  type="email"
+  name="user_email"
+  placeholder="your@email.com"
+  required
+  className="
+    flex-grow h-14 rounded-xl px-6
+    border border-white/30
+    bg-transparent text-[#f1e9e9]
+    focus:outline-none
+    focus:border-[#d8876e]
+    focus:ring-0
+    transition-all
+    shadow-sm
+  "
+  style={{
+    boxShadow: "inset 0 0 0 1px rgba(216,135,110,0.4), 0 0 12px rgba(216,135,110,0.35)"
+  }}
+/>
+
+
+      <button
+        type="submit"
+        className="font-bold h-14 px-8 rounded-xl shadow-lg active:scale-95 transition-all"
+        style={{
+          backgroundColor: colors.primary,
+          color: "#ffffff",
+          boxShadow: `0 10px 15px -3px ${colors.primary}4D`,
+        }}
       >
-      <div className="max-w-3xl mx-auto text-center space-y-8"
-      style={{
-            backgroundColor: "#121212",
-            backgroundImage: `
-              radial-gradient(rgba(216, 135, 110, 1) 0.5px, transparent 0.5px),
-              radial-gradient(rgba(216, 135, 110, 1) 0.5px, #121212 0.5px)
-            `,
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 10px 10px",
-            opacity: 0.06,
-          }}>
-        <h2 className="text-4xl font-bold tracking-tight" style={{ color: colors.white }}>
-          Join the Crust Club
-        </h2>
+        Subscribe
+      </button>
+    </form>
 
-        <p className="text-lg" style={{ color: `${colors.white}B3` }}>
-          Subscribe to get weekly specials, fresh-out-of-the-oven alerts, and exclusive recipes.
-        </p>
+    <p className="text-xs font-medium text-white/70">
+      No spam, just floury goodness once a week.
+    </p>
+  </div>
+</section>
 
-        <form
-          ref={formRef}
-          onSubmit={sendEmail}
-          className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-        >
-          {/* Hidden field to identify form type */}
-          <input type="hidden" name="form_type" value="Newsletter Signup" />
-
-          <input
-            type="email"
-            name="user_email"
-            placeholder="your@email.com"
-            required
-            className="flex-grow h-14 rounded-xl border-none px-6 focus:ring-2 shadow-sm"
-            style={{ backgroundColor: "#fff", color: "#121212" }}
-          />
-
-          <button
-            type="submit"
-            className="font-bold h-14 px-8 rounded-xl shadow-lg active:scale-95 transition-all"
-            style={{
-              backgroundColor: colors.primary,
-              color: "#ffffff",
-              boxShadow: `0 10px 15px -3px ${colors.primary}4D`,
-            }}
-          >
-            Subscribe
-          </button>
-        </form>
-
-        <p className="text-xs font-medium" style={{ color: `${colors.white}66` }}>
-          No spam, just floury goodness once a week.
-        </p>
-      </div>
-    </section>
     </div>
   );
 };

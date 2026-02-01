@@ -45,7 +45,7 @@ const features = [
       className="py-24 px-6 lg:px-20"
       style={{ backgroundColor: colors.backgroundDark }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto animate-fadeInUp">
         <div className="grid lg:grid-cols-3 gap-16 items-start">
 
           {/* Left Column */}

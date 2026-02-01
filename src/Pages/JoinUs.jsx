@@ -75,7 +75,11 @@ const JoinUs = () => {
           ].map((item, i) => (
             <div
               key={i}
-              className="flex flex-col gap-6 rounded-xl border border-[#372c2a] bg-[#1e1e1e] p-8 hover:border-[#e2715a]/50 transition"
+              className="flex flex-col gap-6 rounded-xl border border-[#372c2a] bg-[#1e1e1e] p-8
+             transition-all duration-300 ease-out
+             hover:scale-[1.04]
+             hover:border-[#e2715a]/60
+             hover:shadow-xl"
             >
               <div className="w-14 h-14 rounded-full bg-[#e2715a]/10 flex items-center justify-center text-[#e2715a]">
                 <span className="material-symbols-outlined text-3xl">
@@ -91,7 +95,19 @@ const JoinUs = () => {
 
       {/* FORM */}
       <section id="application-form" className="w-full max-w-3xl py-16 px-6 mb-20">
-        <div className="bg-[#1e1e1e] rounded-2xl border border-[#372c2a] p-8 md:p-12">
+       
+
+          <div
+  className="bg-[#1E1E1E] p-8 lg:p-12 rounded-3xl
+             border border-white/30
+             transition-all
+             shadow-sm"
+  style={{
+    boxShadow:
+      "inset 0 0 0 1px rgba(216,135,110,0.4), 0 0 12px rgba(216,135,110,0.35)",
+  }}
+>
+
           <h2 className="text-[#f5f5dc] text-3xl font-bold text-center mb-4">
             Application Form
           </h2>
@@ -106,7 +122,7 @@ const JoinUs = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full h-14 rounded-xl font-bold text-lg
+              className={`w-full h-14 rounded-xl font-bold text-lg text-white
               ${loading ? "bg-gray-500" : "bg-[#e2715a] hover:bg-[#d1634d]"}`}
             >
               {loading ? "Sending..." : "Submit Application"}
