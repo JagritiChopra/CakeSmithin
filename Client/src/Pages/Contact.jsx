@@ -47,7 +47,7 @@ const Contact = () => {
             </InfoItem>
 
             <InfoItem icon="call" title="Call Us">
-              +91 79737 73405<br />
+              <br />
               <span className="text-sm italic opacity-60">
                 Mon–Fri · 10 a.m. – 7 p.m.
               </span>
